@@ -18,7 +18,7 @@ class WordMatch:
     document_token -- the spaCy token from the document.
     first_document_token -- the first token that matched from the document, which will equal
         *document_token* except with multiword matches.
-    last_document_token -- the lst token that matched from the document, which will equal
+    last_document_token -- the last token that matched from the document, which will equal
         *document_token* except with multiword matches.
     document_subword -- the subword from the token that matched, or *None* if the match was
         with the whole token.

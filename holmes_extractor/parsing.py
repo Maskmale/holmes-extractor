@@ -1718,15 +1718,18 @@ class LinguisticObjectFactory:
                 # SearchPhrases may not themselves contain conjunctions like 'and'
                 # because then the matching becomes too complicated
                 raise SearchPhraseContainsConjunctionError(search_phrase_text)
-            if token._.holmes.is_negated:
-                # SearchPhrases may not themselves contain negation
-                # because then the matching becomes too complicated
-                raise SearchPhraseContainsNegationError(search_phrase_text)
             if self.perform_coreference_resolution and token.pos_ == 'PRON' and \
                     token._.holmes.is_involved_in_coreference():
                 # SearchPhrases may not themselves contain coreferring pronouns
                 # because then the matching becomes too complicated
                 raise SearchPhraseContainsCoreferringPronounError(search_phrase_text)
+            if token._.holmes.is_negated and phraselet_template is None:
+                # SearchPhrases may not themselves contain negation
+                # because then the matching becomes too complicated.
+                # Not relevant for phraselets to enable callers to add additional
+                # phraselets that find negation.
+                raise SearchPhraseContainsNegationError(search_phrase_text)
+
 
         root_tokens = []
         tokens_to_match = []

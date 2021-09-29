@@ -709,10 +709,14 @@ class Worker:
                     return_value, return_info = method(state)
                 reply_queue.put((worker_label, return_value, return_info), timeout=TIMEOUT_SECONDS)
             except Exception as err:
+                print('Exception calling', method)
+                print('String arguments:', [arg for arg in args if type(arg) == str])
                 print(self.error_header(method, args, worker_label))
                 print(traceback.format_exc())
                 reply_queue.put((worker_label, None, err), timeout=TIMEOUT_SECONDS)
             except:
+                print('Exception calling', str(method))
+                print('String arguments:', [arg for arg in args if type(arg) == str])
                 print(self.error_header(method, args, worker_label))
                 print(traceback.format_exc())
                 err_identifier = str(sys.exc_info()[0])
